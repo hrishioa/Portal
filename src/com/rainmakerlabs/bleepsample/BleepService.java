@@ -38,6 +38,7 @@ import android.app.Service;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -47,6 +48,7 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -153,6 +155,7 @@ public class BleepService extends Service {
 
 								if(MainActivity.gal_size<MainActivity.adlib.size() && MainActivity.myGallery!=null) { //new image has been added and the layout is initialized
 									LinearLayout layout = new LinearLayout(getApplicationContext());
+									layout.setOrientation(LinearLayout.VERTICAL);
 									layout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 									layout.setGravity(Gravity.CENTER);
 
@@ -160,8 +163,18 @@ public class BleepService extends Service {
 									imageview.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,1000));
 									imageview.setScaleType(ImageView.ScaleType.CENTER_CROP);
 									imageview.setImageBitmap(bitmap);
-
+									
+									//Add a button to go with it
+									Button btnBuy = new Button(getApplicationContext());
+									LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
+									btnParams.setMargins(-10,-10,-10,-10);
+									btnBuy.setLayoutParams(btnParams);
+									btnBuy.setText("Buy Now");
+									btnBuy.setBackgroundColor(MainActivity.getDominantColor(bitmap));
+									btnBuy.setTextColor(Color.WHITE);
+									
 									layout.addView(imageview);
+									layout.addView(btnBuy);
 									MainActivity.myGallery.addView(layout);
 									MainActivity.gal_size++;
 								}

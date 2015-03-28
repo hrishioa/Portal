@@ -29,16 +29,17 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 
 public class MainActivity extends BleepActivity {
-	
+
 	public static LinearLayout myGallery;
 	public static int gal_size = 0;
 	public static HashMap<String,Bitmap> adlib = new HashMap<String,Bitmap>();
-	
+
 	protected static final String TAG = "MainActivity";
 	private TextView tvBeaconStatus;
-	
+
 	protected void onCreateForBleep() {
 		bleepSplashCreate();
 	}
@@ -52,34 +53,34 @@ public class MainActivity extends BleepActivity {
 		Log.d(TAG, "oncreate");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
+
 		myGallery = (LinearLayout)findViewById(R.id.mygallery);
-		
+
 		tvBeaconStatus = (TextView) findViewById(R.id.tvStatus);
 		tvBeaconStatus.setText("Waiting to detect beacons...");
-		
+
 		if (isCustomisable) {
 			RelativeLayout thislayout = (RelativeLayout) findViewById(R.id.mainLayout);
 			Button optBtn = new Button(this);
 			optBtn.setText("Options");
 			RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-			         280,
-			         RelativeLayout.LayoutParams.WRAP_CONTENT);
-			         lp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+					280,
+					RelativeLayout.LayoutParams.WRAP_CONTENT);
+			lp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 			optBtn.setLayoutParams(lp);
 			optBtn.setOnClickListener(new Button.OnClickListener() {
 				@Override
-			    public void onClick(View v) {
+				public void onClick(View v) {
 					Intent stIntent = new Intent(MainActivity.this, OptionsActivity.class);
 					if (thisBleepService != null)
 						thisBleepService.pauseBleepDiscovery();
 					startActivity(stIntent);
-			    }
+				}
 			});
 			thislayout.addView(optBtn);
 		}
 	}
-    
+
 	@Override
 	protected void onStart() {
 		super.onStart();
@@ -95,17 +96,49 @@ public class MainActivity extends BleepActivity {
 		if(super.thisBleepService!=null)
 			super.thisBleepService.stopBleepDiscovery();
 	}
-	
-    @Override
+
+	@Override
 	protected void onDestroy() {
 		if(super.thisBleepService!=null)
 			super.thisBleepService.stopBleepDiscovery();
 		super.onDestroy();
 		bleepMainDestroy();
 	}
-   
-    protected void displayStatusMsg(String msg) {
-    		tvBeaconStatus.setText(msg);
-    }
-    
+
+	protected void displayStatusMsg(String msg) {
+		tvBeaconStatus.setText(msg);
+	}
+
+	public static int getDominantColor(Bitmap bitmap) {
+		if (null == bitmap) return Color.TRANSPARENT;
+
+		int redBucket = 0;
+		int greenBucket = 0;
+		int blueBucket = 0;
+		int alphaBucket = 0;
+
+		boolean hasAlpha = bitmap.hasAlpha();
+		int pixelCount = bitmap.getWidth() * bitmap.getHeight();
+		int[] pixels = new int[pixelCount];
+		bitmap.getPixels(pixels, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
+
+		for (int y = 0, h = bitmap.getHeight(); y < h; y++)
+		{
+			for (int x = 0, w = bitmap.getWidth(); x < w; x++)
+			{
+				int color = pixels[x + y * w]; // x + y * width
+				redBucket += (color >> 16) & 0xFF; // Color.red
+				greenBucket += (color >> 8) & 0xFF; // Color.greed
+				blueBucket += (color & 0xFF); // Color.blue
+				if (hasAlpha) alphaBucket += (color >>> 24); // Color.alpha
+			}
+		}
+
+		return Color.argb(
+				(hasAlpha) ? (alphaBucket / pixelCount) : 255,
+						redBucket / pixelCount,
+						greenBucket / pixelCount,
+						blueBucket / pixelCount);
+	}
+
 }
