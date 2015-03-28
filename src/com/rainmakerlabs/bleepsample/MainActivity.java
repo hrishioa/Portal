@@ -84,6 +84,7 @@ public class MainActivity extends BleepActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
+		adlib = new HashMap<String,Bitmap>();
 		bleepMainStart();
 		if(super.thisBleepService!=null)
 			super.thisBleepService.startBleepDiscovery();
@@ -91,16 +92,16 @@ public class MainActivity extends BleepActivity {
 
 	@Override
 	protected void onStop() {
-		super.onStop();
+		super.onDestroy();
+//		super.onStop();
 		bleepMainStop();
-		if(super.thisBleepService!=null)
-			super.thisBleepService.stopBleepDiscovery();
+//		if(super.thisBleepService!=null)
+//			super.thisBleepService.stopBleepDiscovery();
+//		super.thisBleepService.onDestroy();
 	}
 
 	@Override
 	protected void onDestroy() {
-		if(super.thisBleepService!=null)
-			super.thisBleepService.stopBleepDiscovery();
 		super.onDestroy();
 		bleepMainDestroy();
 	}

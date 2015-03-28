@@ -41,6 +41,8 @@ public class BleepActivity extends Activity {
 	static BLEepService thisBleepService;
 	Intent intForBleepService;
 	
+	boolean serviceRegistered = false;
+	
 	protected static final boolean isTesting = true;//if you put true, it means you are using testing mode (with more feedback). putting false would use deployment mode. applies primarily to launch communication type, as deployment mode hides confirmation dialogs and fail messages as much as possible where intents are badly formed. testing mode also resets all time interval logs by default upon app launch to allow old triggers to appear again
 	protected static final boolean isCustomisable = false;//if you put true, it allows end-user to change options that are normally set by developer, e.g. apikey, username, timebeforecountedasout, etc. this is to make it easy for people who don't want to edit and compile source code to test
 	protected static boolean amnesia;
@@ -109,7 +111,8 @@ public class BleepActivity extends Activity {
 
 		intForBleepService = new Intent(contextAct, BLEepService.class);
 		onCreateForBleep();
-		bindService(intForBleepService, bleepConnection, Context.BIND_AUTO_CREATE);
+		serviceRegistered = bindService(intForBleepService, bleepConnection, Context.BIND_AUTO_CREATE);
+		
 	}
 	
 	protected void onCreateForBleep() {
@@ -130,6 +133,7 @@ public class BleepActivity extends Activity {
 
         @Override
         public void onServiceDisconnected(ComponentName arg0) {
+        	thisBleepService = null;
         }
     };
     
@@ -165,7 +169,10 @@ public class BleepActivity extends Activity {
 	
     @Override
 	protected void onDestroy() {
-		unbindService(bleepConnection);
+		if(serviceRegistered)
+		{
+			unbindService(bleepConnection);
+		}
 		super.onDestroy();
 	}
 

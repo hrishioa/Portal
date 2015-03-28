@@ -47,7 +47,9 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -154,6 +156,10 @@ public class BleepService extends Service {
 								Log.i("Portal","Image added for key "+strImgMsg);
 
 								if(MainActivity.gal_size<MainActivity.adlib.size() && MainActivity.myGallery!=null) { //new image has been added and the layout is initialized
+									LinearLayout superLL = (LinearLayout)MainActivity.myGallery.getParent().getParent();
+									ImageView imgSplash = (ImageView)superLL.findViewById(R.id.imgSplash);
+									imgSplash.setVisibility(View.INVISIBLE);
+									
 									LinearLayout layout = new LinearLayout(getApplicationContext());
 									layout.setOrientation(LinearLayout.VERTICAL);
 									layout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
@@ -172,6 +178,16 @@ public class BleepService extends Service {
 									btnBuy.setText("Buy Now");
 									btnBuy.setBackgroundColor(MainActivity.getDominantColor(bitmap));
 									btnBuy.setTextColor(Color.WHITE);
+									
+									btnBuy.setOnClickListener(new Button.OnClickListener() {
+										@Override
+										public void onClick(View v){
+											Intent newActivity = new Intent(getApplicationContext(), WebActivity.class);
+											newActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+											newActivity.putExtra("URL", "https://portal-battlehack.herokuapp.com/");
+											startActivity(newActivity);
+										}
+									});
 									
 									layout.addView(imageview);
 									layout.addView(btnBuy);
@@ -484,4 +500,9 @@ public class BleepService extends Service {
 		notificationManager.notify(notifyId, builder.build());
 	}
 
+	public void onDestroy()
+	{
+		super.onDestroy();
+		Log.e("Portal","Service destroyed");
+	}
 }

@@ -12,30 +12,34 @@ public final class R {
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
+        public static final int portal=0x7f020001;
     }
     public static final class id {
         public static final int SCROLLER_ID=0x7f060001;
-        public static final int btnSaveAndClose=0x7f06000c;
-        public static final int fieldApiKey=0x7f060004;
-        public static final int fieldBeaconOutInt=0x7f060008;
-        public static final int fieldUserId=0x7f060005;
-        public static final int imgCADAds=0x7f06000e;
-        public static final int imgCADClose=0x7f06000d;
+        public static final int btnSaveAndClose=0x7f06000d;
+        public static final int fieldApiKey=0x7f060005;
+        public static final int fieldBeaconOutInt=0x7f060009;
+        public static final int fieldUserId=0x7f060006;
+        public static final int imgCADAds=0x7f060010;
+        public static final int imgCADClose=0x7f06000f;
+        public static final int imgSplash=0x7f060003;
         public static final int mainLayout=0x7f060000;
         public static final int mygallery=0x7f060002;
-        public static final int toggleAmnesia=0x7f06000b;
-        public static final int toggleBattReporting=0x7f06000a;
-        public static final int toggleForceSync=0x7f060009;
-        public static final int toggleLogNearest=0x7f060007;
-        public static final int toggleRespondNearest=0x7f060006;
-        public static final int tvStatus=0x7f060003;
-        public static final int videoViewer=0x7f06000f;
+        public static final int toggleAmnesia=0x7f06000c;
+        public static final int toggleBattReporting=0x7f06000b;
+        public static final int toggleForceSync=0x7f06000a;
+        public static final int toggleLogNearest=0x7f060008;
+        public static final int toggleRespondNearest=0x7f060007;
+        public static final int tvStatus=0x7f060004;
+        public static final int videoViewer=0x7f060011;
+        public static final int webview=0x7f06000e;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
         public static final int activity_options=0x7f030001;
-        public static final int custom_ads_dialog=0x7f030002;
-        public static final int custom_video_activity=0x7f030003;
+        public static final int activity_web=0x7f030002;
+        public static final int custom_ads_dialog=0x7f030003;
+        public static final int custom_video_activity=0x7f030004;
     }
     public static final class string {
         public static final int app_name=0x7f040000;
