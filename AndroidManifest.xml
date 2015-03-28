@@ -1,0 +1,90 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.rainmakerlabs.bleepsample"
+    android:versionCode="9"
+    android:versionName="1.6.1" >
+
+    <uses-sdk
+        android:minSdkVersion="11"
+        android:targetSdkVersion="11" />
+
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.NoTitleBar">
+        
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+			android:configChanges="orientation|screenSize" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name=".OptionsActivity"
+            android:label="@string/app_name"
+			android:configChanges="orientation|screenSize" >
+        </activity>
+        
+        <activity
+            android:name=".VideoActivity"
+            android:label="@string/app_name"
+			android:configChanges="orientation|screenSize" >
+        </activity>
+        
+        <service
+            android:name=".BleepService"
+            android:enabled="true" />
+        
+        <receiver android:name=".BleepReceiver">
+		    <intent-filter>
+		        <action android:name="BLEepProcessIntent_com.rainmakerlabs.bleepsample"></action>
+		        <action android:name="BLEepExitOnlyIntent_com.rainmakerlabs.bleepsample"></action>
+		        <action android:name="BLEepStateIntent_com.rainmakerlabs.bleepsample"></action>
+		    </intent-filter>
+		</receiver>
+
+        <service
+            android:name="com.rainmakerlabs.bleep.bleepservice.BLEepService"
+            android:enabled="true" />
+        <service
+            android:name="com.radiusnetworks.ibeacon.service.IBeaconService"
+            android:enabled="true"
+            android:exported="true"
+            android:isolatedProcess="false"
+            android:label="iBeacon" >
+        </service>
+        <service
+            android:name="com.radiusnetworks.ibeacon.IBeaconIntentProcessor"
+            android:enabled="true" >
+            <meta-data
+                android:name="background"
+                android:value="true" />
+        </service>
+        <receiver android:name="com.rainmakerlabs.bleep.bleepservice.SyncAlarmReceiver">
+		    <intent-filter>
+		        <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+		    </intent-filter>
+		</receiver>
+		
+    </application>
+
+</manifest>

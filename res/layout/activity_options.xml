@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:theme="@android:style/Theme.Holo.Light">
+
+	<ScrollView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="50dp"
+		android:scrollbars="vertical"
+		android:fillViewport="true">
+
+		<TableLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="5dp"
+			android:layout_marginRight="5dp"
+			android:paddingLeft="3dp"
+			android:paddingRight="3dp"
+			android:shrinkColumns="1"
+			android:stretchColumns="*">
+            
+			<TableRow>
+		    
+				<TextView
+					android:layout_width="wrap_content" 
+					android:layout_height="wrap_content" 
+					android:text="API Key" /> 
+				
+				<EditText 
+					android:id="@+id/fieldApiKey" 
+					android:text=""
+					android:singleLine="true"
+					android:scrollHorizontally="true"
+					android:layout_height="wrap_content"
+					android:layout_width="fill_parent" />
+			
+			</TableRow>
+		    
+			<TextView 
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content" 
+				android:layout_marginBottom="20dp"
+				android:text="Please retrieve your API key from the BMS control panel." /> 
+            
+		    <TableRow>
+		        
+				<TextView 
+					android:layout_width="wrap_content" 
+					android:layout_height="wrap_content" 
+					android:text="User ID" /> 
+				
+				<EditText 
+					android:id="@+id/fieldUserId" 
+					android:text=""
+					android:hint="Guest"
+					android:singleLine="true"
+					android:scrollHorizontally="true"
+					android:layout_height="wrap_content" 
+					android:layout_width="fill_parent" />
+			
+			</TableRow>
+		    
+			<TextView 
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content" 
+				android:layout_marginBottom="20dp"
+				android:text="Edit this to specify a user for the beacon detection logs, or leave blank to use a random identifier." /> 
+			
+			<TableRow>
+		    
+				<TextView
+					android:layout_width="wrap_content" 
+					android:layout_height="wrap_content" 
+					android:text="Respond to Nearest Only" /> 
+			
+				<ToggleButton 
+					android:id="@+id/toggleRespondNearest"
+					android:textOn="yes"
+					android:textOff="no"
+					android:layout_height="wrap_content" 
+					android:layout_width="fill_parent" />
+			
+			</TableRow>
+		    
+			<TextView 
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content" 
+				android:layout_marginBottom="20dp"
+				android:text="Should the app respond only to the nearest beacon?" /> 
+			
+			<TableRow>
+		    
+				<TextView
+					android:layout_width="wrap_content" 
+					android:layout_height="wrap_content" 
+					android:text="Log Nearest Only" /> 
+			
+				<ToggleButton 
+					android:id="@+id/toggleLogNearest"
+					android:textOn="yes"
+					android:textOff="no"
+					android:layout_height="wrap_content" 
+					android:layout_width="fill_parent" />
+				
+			</TableRow>
+		    
+			<TextView 
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content" 
+				android:layout_marginBottom="20dp"
+				android:text="Should the app log detection for only the nearest beacon?" /> 
+            
+			<TableRow>
+		    
+				<TextView
+					android:layout_width="wrap_content" 
+					android:layout_height="wrap_content" 
+					android:text="Beacon Out Interval" /> 
+			
+				<EditText 
+					android:id="@+id/fieldBeaconOutInt" 
+					android:text=""
+					android:hint="6.0"
+					android:inputType="number"
+					android:layout_height="wrap_content" 
+					android:layout_width="fill_parent" />
+				
+			</TableRow>
+		    
+			<TextView 
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content" 
+				android:layout_marginBottom="20dp"
+				android:text="How many seconds must a beacon disappear from ranging before it is counted as out of range?" /> 
+            
+			<TableRow>
+		    
+				<TextView
+					android:layout_width="wrap_content" 
+					android:layout_height="wrap_content" 
+					android:text="Force BMS Sync" /> 
+			
+				<ToggleButton 
+					android:id="@+id/toggleForceSync"
+					android:textOn="yes"
+					android:textOff="no"
+					android:layout_height="wrap_content" 
+					android:layout_width="fill_parent" />
+				
+			</TableRow>
+		    
+			<TextView 
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content" 
+				android:layout_marginBottom="20dp"
+				android:text="Do you want to force the app to sync with BMS upon launch before responding to beacons?" /> 
+            
+			<TableRow>
+		    
+				<TextView
+					android:layout_width="wrap_content" 
+					android:layout_height="wrap_content" 
+					android:text="Battery Level Reporting" /> 
+			
+				<ToggleButton 
+					android:id="@+id/toggleBattReporting"
+					android:textOn="yes"
+					android:textOff="no"
+					android:layout_height="wrap_content" 
+					android:layout_width="fill_parent" />
+				
+			</TableRow>
+		    
+			<TextView 
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content" 
+				android:layout_marginBottom="20dp"
+				android:text="Does your beacon broadcast its battery level? (If you're not sure, please leave it as NO.)" /> 
+            
+			<TableRow>
+		    
+				<TextView
+					android:layout_width="wrap_content" 
+					android:layout_height="wrap_content" 
+					android:text="Forgetful Mode" /> 
+			
+				<ToggleButton 
+					android:id="@+id/toggleAmnesia"
+					android:textOn="yes"
+					android:textOff="no"
+					android:layout_height="wrap_content" 
+					android:layout_width="fill_parent" />
+				
+			</TableRow>
+		    
+			<TextView 
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content" 
+				android:layout_marginBottom="20dp"
+				android:text="Would you like the app to forget all its beacon detecting history (thereby resetting all rule intervals) whenever the app is killed (NOT simply put into the background) and restarted?" /> 
+			
+		</TableLayout> 
+		
+	</ScrollView>
+			
+	<Button
+		android:id="@+id/btnSaveAndClose"
+		android:text="Save and Close"
+		android:layout_height="50dp" 
+		android:layout_width="150dp"
+		android:layout_centerHorizontal="true"
+		android:layout_alignParentBottom="true" />
+
+</RelativeLayout>
