@@ -153,11 +153,11 @@ public class BleepService extends Service {
 
 								if(MainActivity.gal_size<MainActivity.adlib.size() && MainActivity.myGallery!=null) { //new image has been added and the layout is initialized
 									LinearLayout layout = new LinearLayout(getApplicationContext());
-									layout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 1000));
+									layout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 									layout.setGravity(Gravity.CENTER);
 
 									ImageView imageview = new ImageView(getApplicationContext());
-									imageview.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
+									imageview.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,1000));
 									imageview.setScaleType(ImageView.ScaleType.CENTER_CROP);
 									imageview.setImageBitmap(bitmap);
 
