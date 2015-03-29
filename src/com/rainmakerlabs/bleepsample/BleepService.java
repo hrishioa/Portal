@@ -38,6 +38,7 @@ import android.app.Service;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -137,7 +138,18 @@ public class BleepService extends Service {
 							continue;
 						}
 
-
+						if(strImgMsg.equalsIgnoreCase("$28"))
+						{
+							Log.d("Portal","Image exists, loading from cache");
+							imgShow(BitmapFactory.decodeResource(getResources(), R.drawable.singtel), strImgMsg);
+							continue;
+						}
+						else if(strImgMsg.equalsIgnoreCase("$4.50"))
+						{
+							Log.d("Portal","Heineken Image exists, loading from cache");
+							imgShow(BitmapFactory.decodeResource(getResources(), R.drawable.heineken), strImgMsg);
+							continue;
+						}
 
 						ShutterbugManager.getSharedImageManager(BleepActivity.currentBleepActivity).download(strImgUrl, new ShutterbugManagerListener() {
 							@Override
@@ -150,51 +162,8 @@ public class BleepService extends Service {
 								}
 								final Bitmap bitmap2 = bitmap;
 
-								//Custom code
-								MainActivity.adlib.put(strImgMsg, bitmap);
-								Log.d("Portal","Added an image. Size is now "+MainActivity.adlib.size());
-								Log.i("Portal","Image added for key "+strImgMsg);
-
-								if(MainActivity.gal_size<MainActivity.adlib.size() && MainActivity.myGallery!=null) { //new image has been added and the layout is initialized
-									LinearLayout superLL = (LinearLayout)MainActivity.myGallery.getParent().getParent();
-									ImageView imgSplash = (ImageView)superLL.findViewById(R.id.imgSplash);
-									imgSplash.setVisibility(View.INVISIBLE);
-									
-									LinearLayout layout = new LinearLayout(getApplicationContext());
-									layout.setOrientation(LinearLayout.VERTICAL);
-									layout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-									layout.setGravity(Gravity.CENTER);
-
-									ImageView imageview = new ImageView(getApplicationContext());
-									imageview.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,1000));
-									imageview.setScaleType(ImageView.ScaleType.CENTER_CROP);
-									imageview.setImageBitmap(bitmap);
-									
-									//Add a button to go with it
-									Button btnBuy = new Button(getApplicationContext());
-									LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
-									btnParams.setMargins(-10,-10,-10,-10);
-									btnBuy.setLayoutParams(btnParams);
-									btnBuy.setText("Buy Now");
-									btnBuy.setBackgroundColor(MainActivity.getDominantColor(bitmap));
-									btnBuy.setTextColor(Color.WHITE);
-									
-									btnBuy.setOnClickListener(new Button.OnClickListener() {
-										@Override
-										public void onClick(View v){
-											Intent newActivity = new Intent(getApplicationContext(), WebActivity.class);
-											newActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-											newActivity.putExtra("URL", "https://portal-battlehack.herokuapp.com/");
-											startActivity(newActivity);
-										}
-									});
-									
-									layout.addView(imageview);
-									layout.addView(btnBuy);
-									MainActivity.myGallery.addView(layout);
-									MainActivity.gal_size++;
-								}
-
+								imgShow(bitmap, strImgMsg);
+					
 								if(oldcodeon) {
 									BleepActivity.currentBleepActivity.runOnUiThread(new Runnable() {
 										public void run() {
@@ -504,5 +473,58 @@ public class BleepService extends Service {
 	{
 		super.onDestroy();
 		Log.e("Portal","Service destroyed");
+	}
+
+	public void imgShow(Bitmap bitmap, String strImgMsg)
+	{
+		MainActivity.adlib.put(strImgMsg, bitmap);
+		Log.d("Portal","Added an image. Size is now "+MainActivity.adlib.size());
+		Log.i("Portal","Image added for key "+strImgMsg);
+
+		if(MainActivity.myGallery==null) return;
+		
+		if(MainActivity.gal_size<MainActivity.adlib.size()) { //new image has been added and the layout is initialized
+			LinearLayout superLL = (LinearLayout)MainActivity.myGallery.getParent().getParent();
+			
+			if(MainActivity.gal_size<1) {
+				ImageView imgSplash = (ImageView)superLL.findViewById(R.id.imgSplash);
+				imgSplash.setVisibility(View.INVISIBLE);
+			}
+			
+			LinearLayout layout = new LinearLayout(getApplicationContext());
+			layout.setOrientation(LinearLayout.VERTICAL);
+			layout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+			layout.setGravity(Gravity.CENTER);
+
+			ImageView imageview = new ImageView(getApplicationContext());
+			imageview.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,1000));
+			imageview.setScaleType(ImageView.ScaleType.CENTER_CROP);
+			imageview.setImageBitmap(bitmap);
+
+			//Add a button to go with it
+			Button btnBuy = new Button(getApplicationContext());
+			LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
+			btnParams.setMargins(-10,-10,-10,-10);
+			btnBuy.setLayoutParams(btnParams);
+			btnBuy.setText("Buy Now ("+strImgMsg+")");
+			btnBuy.setBackgroundColor(MainActivity.getDominantColor(bitmap));
+			btnBuy.setTextColor(Color.WHITE);
+
+			btnBuy.setOnClickListener(new Button.OnClickListener() {
+				@Override
+				public void onClick(View v){
+					Intent newActivity = new Intent(getApplicationContext(), WebActivity.class);
+					newActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					newActivity.putExtra("URL", "https://portal-battlehack.herokuapp.com/");
+					startActivity(newActivity);
+				}
+			});
+
+			layout.addView(imageview);
+			layout.addView(btnBuy);
+			MainActivity.myGallery.addView(layout);
+			MainActivity.gal_size++;
+		}
+
 	}
 }
